@@ -3,10 +3,10 @@
     "kind": "BuildConfig",
     "metadata": {
         "annotations": {
-            "pipeline.alpha.openshift.io/uses": "[{\"name\": \"nauticalchart-fixed\", \"namespace\": \"\", \"kind\": \"DeploymentConfig\"}]"
+            "pipeline.alpha.openshift.io/uses": "[{\"name\": \"nauticalchart-forked\", \"namespace\": \"\", \"kind\": \"DeploymentConfig\"}]"
         },
         "labels": {
-            "app": "nauticalchart-fixed",
+            "app": "nauticalchart-forked",
             "part": "frontend"
         },
         "name": "nauticalchart-repair-pipeline",
