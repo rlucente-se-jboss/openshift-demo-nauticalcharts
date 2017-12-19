@@ -10,7 +10,7 @@
             "part": "frontend"
         },
         "name": "nauticalchart-repair-pipeline",
-        "namespace": "nsp-user-nsp1",
+        "namespace": "nsp-one",
     },
     "spec": {
         "nodeSelector": null,
