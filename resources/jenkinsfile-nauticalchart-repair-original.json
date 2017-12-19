@@ -11,25 +11,25 @@ node('maven') {
     openshiftScale(deploymentConfig: 'nauticalchart-forked',replicaCount: '2')
   }
   stage('Go Live') {
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=10 nauticalchart-original=90"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=10 nauticalchart-original=90"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=20 nauticalchart-original=80"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=20 nauticalchart-original=80"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=30 nauticalchart-original=70"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=30 nauticalchart-original=70"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=40 nauticalchart-original=60"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=40 nauticalchart-original=60"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=50 nauticalchart-original=50"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=50 nauticalchart-original=50"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=60 nauticalchart-original=40"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=60 nauticalchart-original=40"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=70 nauticalchart-original=30"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=70 nauticalchart-original=30"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=80 nauticalchart-original=20"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=80 nauticalchart-original=20"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=90 nauticalchart-original=10"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=90 nauticalchart-original=10"
     sleep 2
-    sh "oc set route-backends nauticalchart-forked nauticalchart-forked=100 nauticalchart-original=0"
+    sh "oc set route-backends nauticalchart-original nauticalchart-forked=100 nauticalchart-original=0"
   }
   stage('Remove original') {
     openshiftDeleteResourceByKey(types: 'deploymentConfig', keys: 'nauticalchart-original')
