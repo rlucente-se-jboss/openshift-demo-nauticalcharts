@@ -22,6 +22,8 @@ echo "	--> delete all local artifacts"
 
 echo "	--> deleting all local resources"
 echo "		--> NOTE: nothing to do"
+[[ -n ${NAUTICALCHART_FORKED_APPLICATION_REPOSITORY_LOCAL} && "x/" -ne "${NAUTICALCHART_FORKED_APPLICATION_REPOSITORY_LOCAL}" ]] && rm -rf ${NAUTICALCHART_FORKED_APPLICATION_REPOSITORY_LOCAL}
+
 
 echo "	--> optionally delete the project"
 echo "		--> delete the project ${OPENSHIFT_PROJECT} "
