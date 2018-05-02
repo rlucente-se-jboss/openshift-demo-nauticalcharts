@@ -12,6 +12,6 @@ RUN set -x \
     && SONARWEB_DISTRIBUTABLE=`curl -s -L https://docs.sonarqube.org/display/PLUG/SonarWeb | sed '\|Download|!d;s|.*href="\(.*\)".*|\1|g' ` \
     && curl -o sonarphp.jar -fSL ${SONARPHP_DISTRIBUTABLE} \
     && curl -o sonarweb.jar -fSL ${SONARWEB_DISTRIBUTABLE} \
-    && mv ` command ls -1 *.jar */ | grep sonar` extensions/plugins
+    && mv ` command ls -1 *.jar | grep sonar` extensions/plugins
 
 RUN /usr/bin/fix-permissions ./extensions/plugins 
