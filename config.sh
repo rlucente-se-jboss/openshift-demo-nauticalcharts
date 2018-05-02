@@ -8,7 +8,7 @@
 # uncomment to force these scripts to display configuration information
 ###CONFIGURATION_DISPLAY=true
 
-APPLICATION_NAME=nauticalchart
+APPLICATION_NAME=nauticalcharts
 APPLICATION_REPOSITORY_GITHUB=https://github.com/OpenNauticalChart/online_map.git
 
 
