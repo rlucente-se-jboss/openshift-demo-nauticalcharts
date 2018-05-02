@@ -8,7 +8,6 @@ EXPOSE 9000
 ADD root /
 
 RUN set -x \
-    && useradd -r sonar \
     && SONARPHP_DISTRIBUTABLE=`curl -s -L https://docs.sonarqube.org/display/PLUG/SonarPHP | sed '\|Download|!d;s|.*href="\(.*\)".*|\1|g' ` \
     && SONARWEB_DISTRIBUTABLE=`curl -s -L https://docs.sonarqube.org/display/PLUG/SonarWeb | sed '\|Download|!d;s|.*href="\(.*\)".*|\1|g' ` \
     && curl -o sonarphp.jar -fSL ${SONARPHP_DISTRIBUTABLE} \
