@@ -9,7 +9,7 @@ EXPOSE 9000
 ADD root /
 
 RUN set -x \
-    && useradd -r sonar
+    && useradd -r sonar \
     && SONAR_SCANNER_DISTRIBUTABLE=`curl -s -L https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner | sed '\|Linux 64 bit|!d;s|.*href="\(.*\)".*|\1|g' ` \
 
     # pub   2048R/D26468DE 2015-05-25
