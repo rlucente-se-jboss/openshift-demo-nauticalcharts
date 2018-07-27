@@ -1,0 +1,482 @@
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<style type="text/css">
+
+* {
+	font-family: "sans";
+	font-size: 12pt;
+	color: #404040;
+}
+
+.useraction {
+	font-weight: bold;
+	color: #D04040;
+}
+
+.userattention {
+	font-weight: bold;
+	color: #4040D0;
+}
+
+ol {
+/*	margin: 0; */
+/*	padding: 0   */
+list-style-type: decimal;
+}
+
+ul {
+/*	margin: 0; */
+/*	padding: 0   */
+list-style-type: square;
+}
+
+ol > * > ol {
+list-style-type: lower-alpha;
+}
+
+table td, table th {
+	padding: 0
+}
+
+.title {
+	padding-top: 0pt;
+	font-size: 26pt;
+	padding-bottom: 3pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+.subtitle {
+	padding-top: 0pt;
+	color: #666666;
+	font-size: 15pt;
+	padding-bottom: 16pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+p {
+	margin: 0;
+	color: #000000;
+}
+
+h1 {
+	padding-top: 0pt;
+	font-size: 20pt;
+	padding-bottom: 6pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+h2 {
+	padding-top: 0pt;
+	font-size: 16pt;
+	padding-bottom: 4pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+h3 {
+	padding-top: 0pt;
+	font-size: 14pt;
+	padding-bottom: 2pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+h4 {
+	padding-top: 0pt;
+	font-size: 12pt;
+	padding-bottom: 4pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+h5 {
+	padding-top: 2pt;
+	font-size: 11pt;
+	padding-bottom: 4pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+
+h6 {
+	padding-top: 12pt;
+	font-size: 11pt;
+	padding-bottom: 4pt;
+	line-height: 1.15;
+	page-break-after: avoid;
+	font-style: italic;
+	orphans: 2;
+	widows: 2;
+	text-align: left
+}
+</style>
+	<title>Nautical Charts Demo</title>
+</head>
+<body>
+	<h1 id="">
+		<span>Nautical Charts Demo Script</span>
+	</h1>
+	<div id="prepare">
+		<h2 id="">
+			<span>Prepare</span>
+		</h2>
+		<span><p>Login to Openshift;</span><span class="useraction">&nbsp;select one of</span><span>&nbsp;the following clusters </span><span>here</span><span>&nbsp;which known to work with this demo:</p></span>
+		<ol class="" >
+			<li>
+				<span><h2>Openshift Online</h2></span>
+				<ol class="" >
+					<li><span>Login to (<span class="userattention"><a href="manage.openshift.com">Openshift Online</a></span>) using RHN ID</span></li>
+					<li><span>Select </span><span class="useraction">pro-us-east-1 zone</span><span>&nbsp;and click Open Web Console</span></li>
+					<li><span>Create Project (if not already existing) otherwise select <span  class="useraction">nsp-one</span></span></li>
+				</ol>
+				<div id="preconfg">
+					<h3>
+						<span>Preconfig</span>
+					</h3>
+					<ul>
+						<li><span>Login to GitHub &amp; delete Forked Repo of online_map</span></li>
+						<li><span>Delete/scale down all projects in Pro Tier.</span></li>
+						<li><span>Delete the PVC and service account for Jenkins</span></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<span><h3>RHSAdemo</h3></span>
+				<span><p>This cluster is maintained by Red Hat Public Sector Middleware Solutions Architects for the purpose of running demos, workshops, training sessions, etc. It is installed on AWS infrastructure, and incorporates a number of other Red Hat Products including Cloudforms for operations support and infrastructure automation, IPA for authentication, and gluster on EC2 for peristent storag  capacity. RBAC controls limit standard user accounts to simulate a "normal" developer experience. Openshift system administrator rights are normally not granted to end users.</p></span>
+				<ol class="" >
+					<li><span>Login to the rhsademo.net openshift (<span class="useraction"><a href="master.rhsademo.net">console</a></span><span>) using your login (contact Peter Larsen, plarsen@redhat.com for an account)</span></li>
+				</ol>
+				<div id="preconfg">
+					<h3>
+						<span>Preconfig</span>
+					</h3>
+					<ul>
+						<li><span>Login to GitHub &amp; delete any Forked Repos of online_map</span></li>
+						<li><span>If present, delete any conflicting projects, such as username-nauticalcharts</span></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<span><h3>IC Team cluster</h3></span>
+				<span><p>This cluster is maintained by the IC team Solutions Architects for the purpose of running demos, workshops, training sessions, etc. It is installed on hybrid infrasructure on AWS infrastructure and a VRTX located in NicK Sabine's basement, and incorporates a number of other Red Hat Products including Cloudforms for operations support and infrastructure automation, IPA for authentication, and gluster on EC2 for peristent storage capacity. IC team members enjoy open access to the environment, but for others, RBAC controls limit standard user accounts to simulate a "normal" developer experience. Openshift system administrator rights are normally not granted to end users.</p></span>
+				<ol class="" >
+					<li><span>Login to the ocp.rhtps.io openshift <span class="useraction"><a href="http://ocp.rhtps.io/console">console</a></span>) &nbsp;using your login (contact Nick Sabine, nsabine@redhat.com for an account)</span></li>
+				</ol>
+				<div id="preconfg">
+					<h3>
+						<span>Preconfig</span>
+					</h3>
+					<ul>
+						<li><span>Login to GitHub &amp; delete any Forked Repos of online_map</span></li>
+						<li><span>If present, delete any conflicting projects, such as username-nauticalcharts</span></li>
+					</ul>
+				</div>
+			</li>
+		</ol>
+		<ol class="" >
+			<li><span>Make sure there are no projects existing -- delete any existing projects</span></li>
+			<li><span>Select </span><span>New Project</span><span>&nbsp;button to create a new project </span></li>
+			<li><span>Give the project the name <span>nauticalchart-demo</span></li>
+		</ol>
+	</div>
+	<div>
+		<h2 >
+			<span>Create an EAP App</span>
+		</h2>
+		<span><p>We will create a generic EAP application just to show how mutliple apps can co-exist in the same namespace and we can build and deploy complex, java JEE applications.</p></span>
+
+		<ol class="" >
+			<li><span>Click the <span class="useraction">Add to Project</span> button</span> OR <span class="userattention">if not available, skip this step</span></li>
+			<li><span>Click the <span class="useraction">Browse Catalog</span> button</span></li>
+			<li><span>Click the <span class="useraction">Languages</span> tab and <span class="useraction">Java</span>&nbsp;family button</span></li>
+			<li><span>Click the <span class="useraction"> JBoss EAP 7.1 (no https)</span>&nbsp;button</span></li>
+			<li><span>On the resulting wizard pages <span class="useraction">Select Next</span>&nbsp; repeatedly, accepting all defaults, noting:
+			<ul>
+			<li><span>You may Enter an application name: <span class="useraction">eap-demo</span></span></li>
+			<li><span>Select the &ldquo;<span class="useraction">try it</span>&rdquo; link and make sure the git URL field is populated.</span></li>
+			</ul>
+			</span></li>
+			<li><span><span class="useraction">Accept all defaults, </span> then select <span class="useraction">Close</span></span></li>
+			<li><span><span class="useraction">Explain</span>&nbsp;to application (full JEE application, predating OCP)</span></li>
+			<li><span><span class="useraction">Accept the defaults, </span>then <span class="useraction">scroll down</span>&nbsp;and <span class="useraction">click Create</span></span></li>
+			<li><span>Click </span><span>Continue</span><span>&nbsp;to Overview</span></li>
+			<li><span>Do NOT wait for the build to complete, <span class="useraction">proceed</span>&nbsp;with the remaining steps</span></li>
+		</ol>
+	</div>
+	<div>
+	<h2 >
+		<span>Create Jenkins Server</span>
+	</h2>
+	<span><p>Later in this demo, we will create some jenkins based build and build pipelines. Jenkins takes some time to start up, so we will pre-start it here. Note that Openshift will normally do this for you if it detects a pipeline build but no jenkins service.</p></span>
+	<ol class="" >
+		<li><span>Click the <span class="useraction">Add to Project</span>&nbsp; button in the upper left of the web console</span></li>
+		<li><span>Click the <span class="useraction">Browse Catalog</span>&nbsp; button</span></li>
+		<li><span><span class="useraction">Type &ldquo;jenkins&rdquo;</span>&nbsp;in the filter search field</span></li>
+		<li><span>Click</span><span>&nbsp;on the Jenkins (Ephemeral) template that appears (you may see other templates)</span></li>
+		<li><span>On the resulting wizard pages <span class="useraction">Select Next</span>&nbsp; repeatedly, accepting all defaults, noting:
+			<ol class="" >
+				<li>If a warning appears, <span class="useraction">Acknowledge the warning and click </span><span class="useraction">Create Anyway</span></li>
+			</ol>
+		</span></li>
+		<li><span><span class="useraction">Accept all defaults, </span> then select <span class="useraction">Close</span></span></li>
+		<li><span>Click <span class="useraction">Continue</span>&nbsp;to Overview</span></li>
+		<li><span><span class="useraction">Explain</span> the quota warning (due to PVC of this container) and that we are still good to go</span></li>
+		<li><span >Click <span class="useraction">Don&rsquo;t show me again</span>&nbsp;to dismiss the warning</span></li>
+	</ol>
+	</div>
+	<div>
+	<h2>
+		<span>Deploy Original Code</span>
+	</h2>
+	<span><p>Developers are lazy, and prefer to reuse code whenever possible.</p></span>
+	<ol class="" >
+		<li><span>Search in Google for &ldquo;<span class="useraction">open nautical chart site:github.com</span>. <a  target="_blank" href="https://www.google.com/search?num=30&safe=on&q=open nautical chart site%3Agithub.com">Take me there</a></span></li>
+		<li><span>Look for the following: &lsquo;<span><a href="https://www.google.com/url?q=https://github.com/OpenNauticalChart&amp;sa=D&amp;ust=1523912886208000">https://github.com/OpenNauticalChart</a></span>&rdquo; - usually the first result</span></li>
+		<li><span>Click the <span class="useraction">online_map</span>&nbsp;repo</span></li>
+		<li><span>Click the <span class="useraction">Clone or Download</span>&nbsp;button and <span class="useraction">copy the link</span>&nbsp;presented (leave&nbsp;the browser tab up)</span></li>
+		<li><span>Return</span><span>&nbsp;to the OpenShift brower/tab and complete the following:</span></li>
+	</ol>
+	<span><p>Lazy developers use openshift, because its easy</p></span>
+	<ol class="" >
+		<li><span>Click the <span class="useraction">Add to project button</span></span></li>
+		<li><span>Click the <span class="useraction">Browse Catalog button</span></span></li>
+		<li><span>Click on the <span  class="useraction">PHP</span> Family</span></li>
+		<li><span>Click <span  class="useraction">Select</span>&nbsp;on PHP with version 7 selected </span></li>
+		<li><span>Click </span>on the <span class="useraction">PHP</span> template that appears (you may see other templates)</li>
+		<li><span>On the resulting wizard pages:</span>
+			<ol class="" >
+				<li>Verify the latest version (7.1) and then <span class="useraction">Select Next</span> on the first page</li>
+				<li><span class="useraction">Name: <span >nauticalchart-original</span></span> </li>
+				<li><span class="useraction">Git Repository URL:<span >&lt;paste the link from step 4&gt;</span></span></li>
+				<li>
+					<span>Click </span><span class="useraction">Advanced</span><span>. &nbsp;Scroll to bottom of page, change:</span>
+						<ol class="" >
+							<li><span class="useraction">Resource Limit <span>&nbsp;from 512 MiB</span> to &nbsp;<span>256 MiB</span></span></li>
+						</ol>
+				</li>
+				<li><span><span class="useraction">Accept all other  defaults, </span> then select <span class="useraction">Close</span></span></li>
+			</ol>
+		</li>
+		<li><span>Click </span><span  class="useraction">Create</span></li>
+		<li><span>Click </span><span  class="useraction">Continue to Overview</span></li>
+		<li><span  class="useraction">Explain</span><span> S2I build process.</span></li>
+		<li><span>When Deployment starts, click on </span><span>POD circle graphic</span><span>, &nbsp;explain Details</span></li>
+		<li><span>Switch to <span >Log</span> and <span  class="useraction">Explain</span> that logs can be viewed as necessary in the web console -- and are also forwarded to an EFK log stack for retention and later analysis.</span></li>
+		<li><span>Switch to <span>Terminal</span>  and <span class="useraction">Explain</span> that the terminal can be used to examine, probe, and even change the running state of a container. Just remember that container images are immutable and all changes will be lost on restart. This is actually a nice feature if you mess up the runtime!</span></li>
+		<li><span>Go to the project overview by selecting the <span class="useraction">Overview</span> button in the upper left corner</span></li>
+		<li><span class="useraction">Click on nauticalchart-original application </span><span>route URL</span><span>. &nbsp;</span></li>
+	</ol>
+	<span class="userattention">Something is wrong - advanced capabilities missing. &nbsp;We need to fix!</span>
+	<h2 >
+		<span>My own Application</span>
+	</h2>
+		<span><p>We will create &amp; deploy a forked version of the application so we can control it and make changes</p></span>
+	
+	<ol class="" >
+		<li><span class="useraction">Return </span> to <span>GitHub</span> in your browser. <a target="_blank" href="https://www.github.com">Take me there</a></li>
+		<li><span>Click the </span><span class="useraction">Fork</span><span>&nbsp;button in the upper right</span></li>
+		<li><span>If you are presented with a choice of multiple accounts, <span class="userattention">select your personal account.</span></span></li>
+		<li><span>The fork will take about 10-15 seconds, be patient!</span></li>
+		<li><span>Click the </span><span class="useraction">Clone or Download</span><span>&nbsp;button and </span><span>copy the link</span><span>&nbsp;presented in your forked repo</span></li>
+		<li><span>Return</span><span>&nbsp;to the OpenShift brower/tab and complete the following:</span><span>:</span></li>
+		<li><span>Click the <span class="useraction">Add to project button</span></span></li>
+		<li><span>Click the <span class="useraction">Browse Catalog button</span></span></li>
+		<li><span>Click on the <span  class="useraction">PHP</span> Family</span></li>
+		<li><span>Click <span  class="useraction">Select</span>&nbsp;on PHP with version 7 selected </span></li>
+		<li><span>Click </span>on the <span class="useraction">PHP</span> template that appears (you may see other templates)</li>
+		<li><span>On the resulting wizard pages:</span>
+			<ol class="" >
+				<li>Verify the latest version (7.1) and then <span class="useraction">Select Next</span> on the first page</li>
+				<li><span class="useraction">Name: <span >nauticalchart-forked</span></span> </li>
+				<li><span class="useraction">Git Repository URL:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="c12 c8">&lt;paste the link from step 3&gt;</span></span></li>
+				<li>
+					<span>Click </span><span class="useraction">Advanced</span><span>. &nbsp;Scroll to bottom of page, change:</span>
+						<ol class="" >
+							<li><span class="useraction">Resource Limit <span>&nbsp;from 512 MiB</span> to &nbsp;<span>256 MiB</span></span></li>
+						</ol>
+				</li>
+				<li><span><span class="useraction">Accept all other  defaults, </span> then select <span class="useraction">Close</span></span></li>
+			</ol>
+		</li>
+		<li><span>Wait for build to complete</span></li>
+		<li><span>Show app - still broken, we just forked the same code.</span></li>
+	</ol>
+
+	<h2 >
+		<span>Create a WIP branch</span>
+	</h2>
+	<span><p>Although out app is currently broked, we want to make sure we don't mess anything else up. We'll fix this application in a separate feature branch in git.</p></span>
+
+	<ol>
+		<li><span>In </span><span  class="useraction">GitHub</span><span> (<a target="_blank" href="https://www.github.com">take me there</a>), click the </span><span class="userattention">Branch: master button</span></li>
+		<li>
+			<span>Type <span class="useraction">fix</span>&nbsp;in the text field, then click the <span class="useraction">new button</span> (in blue) to create the fix branch</span>
+			<ol class="" >
+				<li><span>You will automatically be switched to the <span class="userattention">fix</span>&nbsp;branch</span></li>
+			</ol>
+		</li>
+		<li><span>Back in OpenShift, click </span><span  class="useraction">Builds</span><span>&nbsp;on the left menu pane, then </span><span class="useraction">Builds</span><span>&nbsp;in the sub-menu</span></li>
+		<li><span class="useraction">Click</span> &ldquo;<span>nauticalchart-forked</span><span>&rdquo; in the build list</span></li>
+		<li><span>Click </span><span  class="useraction">Actions</span><span>&nbsp;(button in the upper right) and then </span><span class="useraction">Edit</span></li>
+		<li><span>Click the link under the Git URL for &ldquo;</span><span class="useraction">advanced options</span><span>&rdquo;</span></li>
+		<li><span><span  class="useraction">Change</span> the Git Reference from &ldquo;<span class="userattention">master</span>&rdquo; to &ldquo;</span><span class="userattention">fix</span><span>&rdquo;</span></li>
+		<li><span>Click the </span><span class="useraction">Save</span><span>&nbsp;button at the bottom of the form</span></li>
+		<li><span>Switch to the Configuration Tab, find the Triggers section and </span><span  class="useraction">copy the Generic Webhook</span></li>
+		<li><span>On the Build screen, click </span><span class="useraction">Start Build </span><span>to rebuild the app</span></li>
+		<li><span>Return to </span><span class="useraction">GitHub</span><span>, click on the </span><span class="useraction">Settings</span><span>&nbsp;tab at the top of the repo</span></li>
+		<li><span>On the left side, click the </span><span class="useraction">Webhooks</span><span>&nbsp;link</span></li>
+		<li><span>Click the <span class="useraction">Add Webhook</span><span>&nbsp;button - you may need to authenticate to GitHub with your password</span></li>
+		<li><span><span class="useraction">Paste the Generic Webhook</span>&nbsp;URL into the </span><span>Payload URL</span><span>&nbsp;field</span></li>
+		<li><span>Change the </span><span>Content Type to &ldquo;application/json&rdquo;</span></li>
+		<li>
+			<span>Click the &ldquo;</span><span>Disable SSL</span><span>&rdquo; button and acknowledge the warning</span>
+			<ol class="" >
+				<li><span>Note - you would normally not do this but we don't feel like setting up SSL keys and certs at the moment.</span></li>
+			</ol>
+		</li>
+		<li><span>Click the<span class="useraction">Add Webhook</span>&nbsp;button</span></li>
+		<li>
+			<span  class="useraction">Click on/ go to </span><span>Overview</span>
+			<ol class="" >
+				<li><span>GitHub will send a test payload to OpenShift to confirm that the webhook works. This should </span><span>trigger a rolling rebuild</span><span>&nbsp;of the nauticalchart-forked application. You should see the build number increment by 1 and the rolling deployment update the running app.</span></li>
+			</ol>
+		</li>
+	</ol>
+	<h2>
+		<span>And now for something completely different!</span>
+	</h2>
+	<span>Back to EAP! Your EAP app should be completely built by now.</span>
+	<ol class="" >
+		<li><span class="useraction">Click the EAP </span><span>application route URL </span><span>and you should see the &ldquo;kitchen sink&rdquo; application.</span> <a target="_blank" href="http://eap-app-nauticalchart-demo.apps.rhtps.io/kitchensink/">Take me there.</a></li>
+		<li><span>Test the application by </span><span class="useraction">adding someone</span><span>&nbsp;to the list (10 digit phone number, no dashes)</span></li>
+		<li><span class="useraction">Click</span> on the <span>REST URL</span><span>&nbsp;to show that it&rsquo;s working</span></li>
+		<li><span>To reduce resources, spin the app down to 0 by </span><span class="useraction">clicking the down arrow</span><span>&nbsp;next to the pod count - </span><span>confirm</span><span>&nbsp;the
+				scale down</span></li>
+	</ol>
+	<span>Let&rsquo;s return to build nautical charts</span>
+	<h2>
+		<span>Create Canary Route</span>
+	</h2>
+	<span>A canary route lets us direct a certain, small amount of users to alternative or candidate versions of an app to make sure the operate the same. We'll use one here to make sure the fixes to our application don't break other parts.</span>
+	<ol class="" >
+		<li><span class="useraction">Click</span> on the <span>Applications</span><span>&nbsp;button on the left menu bar then </span><span class="useraction">Routes</span><span>&nbsp;on the sub-menu</span></li>
+		<li><span class="useraction">Click</span> on the &ldquo;<span class="userattention">nauticalchart-original</span><span>&rdquo; in the route table</span></li>
+		<li><span>Click <span class="useraction">Actions</span> in the upper right, then <span  class="useraction">Edit</span></span></li>
+		<li><span class="useraction">Check</span><span> the box for Split Traffic</span></li>
+		<li><span><span class="useraction">Select</span> the &ldquo;<span class="userattention">nauticalchart-forked</span>&rdquo; from the Service drop-down</span></li>
+		<li><span class="useraction">Set</span><span> the Service Weights to 95% of the traffic to original and 5% to forked</span></li>
+		<li><span>Click the <span class="useraction">Secure Route check box</span> and keep all of the remaining defaults</span></li>
+		<li><span>Click <span class="useraction">Save</span> at the bottom of the screen</span></li>
+	</ol>
+	<h2>
+		<span>Add Readiness Check</span>
+	</h2>
+	<span>Readiness checks allow Openshift to automatically probe the state of an application. If not ready -- it will not route any traffic to the application. We can use one to make sure the application is fixed before letting the canary route direct any traffic to the application.</span>
+	<ol class="" >
+		<li><span>Return to the Overview screen</span></li>
+		<li><span>Back in OpenShift, click <span class="useraction">Application</span> on the left menu pane, the <span class="useraction">Deployments</span> in the sub-menu</span></li>
+		<li><span>Click  &ldquo;<span class="useraction">nauticalchart-forked</span>&rdquo; in the build list</span></li>
+		<li><span>Click the <span class="useraction">Actions</span> button in the upper right, then select <span class="useraction">Edit Health Checks</span></span></li>
+		<li><span>Click <span class="useraction">Add Readiness Probe</span></span></li>
+		<li><span><span class="useraction">Change the Type</span> to &ldquo;<span class="userattention">Container Command</span>&rdquo;</span></li>
+		<li><span>In the Command field, <span class="useraction">type</span> &ldquo;sh&rdquo; <span class="userattention">(without the quotes)</span> then click <span class="useraction">Add</span> at the end of the line.</span></li>
+		<li><span>In the Add argument field below the sh command, <span class="useraction">type</span> &ldquo;-c&rdquo; <span class="userattention">(without the quotes)</span> then click <span class="useraction">Add</span> at the end of the line.</span></li>
+		<li><span>In the next Add argument field, <span class="useraction">type</span> &ldquo;</span><span>curl localhost:8080 | grep -i weather</span><span>&rdquo; <span class="userattention">(without the quotes)</span> then click Add at the end of the
+				line.</span></li>
+		<li><span>Click <span class="useraction">Save</span> at the bottom of the page. Note that this will trigger a rebuild.</span></li>
+		<li><span><span class="useraction">Return to the Overview</span> screen and <span class="useraction">expand the nauticalchart-forked app</span></span></li>
+		<li><span>Notice that the deployment seems to be stuck. Click <span class="useraction">View</span> events next to the deployment status</span></li>
+		<li><span>Notice that the <span class="userattention">readiness probe</span> we just created has <span class="userattention">failed</span> and the pod is &ldquo;Unhealthy.&rdquo; Let&rsquo;s fix that.</span></li>
+	</ol>
+	<h2>
+		<span>Time to fix stuff!</span>
+	</h2>
+	<span>We'll fix our app directly in github -- but you can always use your favorite IDE and clone a local repo. Or use a web-based, container-native IDE like Eclipse Che</span>
+	<ol class="" >
+		<li><span>Go <span class="useraction">back to GitHub</span> - you&rsquo;re probably still on the webhook screen, so <span class="useraction">click the online_map link</span> at the top next to your account name - this will return you to the repo -
+				verify the fix branch (change to it if needed)</span></li>
+		<li><span>Click on the <span class="useraction">index.php</span> file in the content list, this will show you the file contents.</span></li>
+		<li><span>Click the <span class="useraction">Edit</span> button in the upper right (looks like a pencil)</span></li>
+		<li><span>Near the bottom of the file, <span class="useraction">change</span> the &ldquo;&lt;?&rdquo; to &ldquo;&lt;?php&rdquo; <span class="userattention">(without the quotes)</span></span></li>
+		<li><span><span class="useraction">Add</span> a comment to your change (Fixed missing php, or something like that)</span></li>
+		<li><span>Click <span class="useraction">Commit Changes</span></span></li>
+		<li><span>Click the <span class="useraction">online_map link</span> next to the Branch:fix (NOT the one at the top of the page)</span></li>
+		<li><span>Now <span class="useraction">select the weather_index.php</span> file from the content list.</span></li>
+		<li><span>Click the <span class="useraction">Edit</span> button in the upper right (looks like a pencil)</span></li>
+		<li><span>Near the bottom of the file, <span class="useraction">change</span> the &ldquo;&lt;?&rdquo; to &ldquo;&lt;?php&rdquo; <span class="userattention">(without the quotes)</span></span></li>
+		<li><span><span class="useraction">Add</span> a comment to your change (Fixed missing php, or something like that)</span></li>
+		<li><span>Click <span class="useraction">Commit Changes</span></span></li>
+		<li><span>Now <span class="useraction">return to OpenShift</span> and click <span class="useraction">Overview</span> - you should be in time to see the rebuild to the fixed version of the app.</span></li>
+		<li><span>In the app details (below the pod ring) <span class="useraction">wait for the build</span> to complete then <span class="useraction">click</span> on the <span class="userattention">forked URL</span> (NOT original) and wait for the app to load.</span><a  target="_blank" href="http://nauticalchart-forked-nauticalchart-demo.apps.rhtps.io/">Take me there</a></li>
+		<li><span>You should now have a menu at the top left. Click the <span class="useraction">View</span> button and enable Weather. This will take several seconds to load, but you <span class="userattention">should now see a weather overlay</span>.</span></li>
+	</ol>
+	<span><p>Note that this was actually 2 rebuilds - one for each commit in Git - show build numbers<p></span>
+	<h2>
+		<span>Production pipeline!</span>
+	</h2>
+	<span><p>Using Jenkins pipelines, we can automate virtually any step in this process: the application build, test, customize the deployment, and putting our application into production automatically.<p></span>
+	<ol class="" >
+		<li><span>Return to the OpenShift </span><span>Overview</span></li>
+		<li><span>Go to and </span><span>copy</span><span>&nbsp;the contents </span><span><a
+				href="https://www.google.com/url?q=https://raw.githubusercontent.com/michaelepley/openshift-demo-nauticalcharts/master/resources/build-pipeline-nauticalchart-repair-original.json&amp;sa=D&amp;ust=1523912886217000"
+			>https://raw.githubusercontent.com/michaelepley/openshift-demo-nauticalcharts/master/resources/build-pipeline-nauticalchart-repair-original.json</a></span></li>
+		<li><span>Click </span><span class="useraction">Add to Project </span><span>button</span></li>
+		<li><span>Click </span><span class="useraction">Import YAML/JSON </span><span>tab</span></li>
+		<li><span class="useraction">Paste</span><span>&nbsp;in the contents of the file</span></li>
+		<li><span class="useraction">Edit</span><span>&nbsp; the pasted contents of the file: make sure the <span class="userattention">namespace:</span> is "nauticalchart-demo"</span></li>
+		<li><span>Click </span><span class="useraction">Create </span><span>button at bottom of page</span></li>
+		<li><span>In OpenShift, click </span><span class="useraction">Builds</span><span>&nbsp;on the left </span><span>menu</span><span>&nbsp;pane, then </span><span class="useraction">Pipelines</span><span>&nbsp;in the </span><span>sub-menu</span></li>
+		<li><span>Click &ldquo;</span><span class="useraction">nauticalchart-repair-pipeline</span><span>&rdquo; link</span></li>
+		<li><span>Click </span><span class="useraction">Actions</span>, then select <span class="useraction">Edit</span></li>
+		<li><span>Go to and </span><span>copy</span><span>&nbsp;the contents </span><span><a
+				href="https://www.google.com/url?q=https://raw.githubusercontent.com/michaelepley/openshift-demo-nauticalcharts/master/resources/jenkinsfile-nauticalchart-repair-original.json&amp;sa=D&amp;ust=1523912886218000"
+			>https://raw.githubusercontent.com/michaelepley/openshift-demo-nauticalcharts/master/resources/jenkinsfile-nauticalchart-repair-original.json</a></span></li>
+		<li><span>Paste</span><span>&nbsp;into the edit box, </span><span>replacing All</span><span>&nbsp;existing contents</span></li>
+		<li><span>Click </span><span  class="useraction">Save</span><span>&nbsp;button</span></li>
+		<li><span>Click </span><span class="useraction">Start Pipeline</span><span>&nbsp;button</span></li>
+		<li><span>Return to </span><span class="useraction">Overview</span><span>&nbsp;and </span><span class="useraction">expand nauticalchart-forked</span></li>
+		<li><span>Scroll to the bottom and </span><span>notice</span><span>&nbsp;the pipeline build working</span></li>
+		<li><span>Once the build enters the Test phase, </span><span>wait</span><span>&nbsp;for it to pause for user input, click <span class="useraction">input required</span> link</span>
+			<ol class="" >
+				<li><span>Note that this will open the Jenkins page, you <span class="useraction">may have to accept permissions</span> here.</span></li>
+				<li><span>Once you are presented with the Paused for Input page, select <span class="useraction">Proceed</span></span></li>
+				<li><span>Return to the <span class="useraction">Overview</span> and watch the remainder of the pipeline build.</span></li>
+				<li><span>Notice the following:</span>
+					<ol class="" >
+						<li><span>The build <span class="userattention">scales</span> to 2 pods</span></li>
+						<li><span>The build <span class="userattention">changes the traffic split</span> to 100% forked</span></li>
+						<li><span>The build <span class="userattention">removes</span> the nauticalchart-original app</span></li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+	</ol>
+	<h2>
+		<span>All done for now</span>
+	</h2>
+</body>
+</html>
