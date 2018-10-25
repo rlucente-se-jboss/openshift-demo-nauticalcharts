@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Configuration
 . ./config-demo-openshift-nauticalcharts.sh || { echo "FAILED: Could not configure" && exit 1 ; }
@@ -50,13 +50,9 @@ while ! oc get pods | grep ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME} | grep -v 
 echo "	--> Expose a generic endpoint for the original application"
 oc get route ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME} >/dev/null 2>&1  || oc expose service ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME} >/dev/null 2>&1  || { echo "FAILED: Could not verify route to application frontend" && exit 1; } || { echo "FAILED: Could patch frontend" && exit 1; }
 
-echo "	--> Expose a canonical endpoint for external users, which will never change...start them with the ORIGINAL application"
-echo "		--> Try it! Go to ${NAUTICALCHART_CANONICAL_APPLICATION_NAME}.${OPENSHIFT_APPS}"
-oc get route ${NAUTICALCHART_CANONICAL_APPLICATION_NAME} >/dev/null 2>&1 || oc expose service ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME} --name ${NAUTICALCHART_CANONICAL_APPLICATION_NAME} -l app=${NAUTICALCHART_CANONICAL_APPLICATION_NAME} --hostname="${NAUTICALCHART_CANONICAL_APPLICATION_NAME}.${OPENSHIFT_APPS}" >/dev/null 2>&1 
-
 echo -n "	--> Waiting for both application endpoints to resolve successfully....press any key to proceed"
 COUNTER=0
-while [ $(( COUNTER ++ )) -lt 30 ] && ! curl -f -s -i ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME}-${OPENSHIFT_PROJECT}.${OPENSHIFT_APPS} >/dev/null 2>&1 && ! curl -f -s -i ${NAUTICALCHART_CANONICAL_APPLICATION_NAME}.${OPENSHIFT_APPS} >/dev/null 2>&1 ; do echo -n "." && read -t 1 -n 1 && break ; done
+while [ $(( COUNTER ++ )) -lt 30 ] && ! curl -f -s -i ${NAUTICALCHART_ORIGINAL_APPLICATION_NAME}-${OPENSHIFT_PROJECT}.${OPENSHIFT_APPS} >/dev/null 2>&1 ; do echo -n "." && read -t 1 -n 1 && break ; done
 
 echo "	--> Checking for the presence of a newly requested weather feature"
 curl -f -s -i ${NAUTICALCHART_CANONICAL_APPLICATION_NAME}.${OPENSHIFT_APPS} | grep -i weather >/dev/null 2>&1 || { echo "	--> On Noes! the weather toolbar is missing!" && echo "	--> Let's fix this" ; }

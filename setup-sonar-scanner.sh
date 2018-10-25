@@ -1,10 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # example of running standalone
 # sonar-scanner -Dsonar.projectKey=nauticalchart -Dsonar.sources=. -Dsonar.projectBaseDir=/opt/src -Dsonar.host.url=http://sonarqube-mepley-cd-cicd.apps.rhtps.io -Dsonar.login=c1619d0efb999dcac4c2a603f176ba06f17afc1e
 
-oc new-build --name=sonar-scanner --context-dir=resources/sonar-scanner https://github.com/michaelepley/openshift-demo-nauticalcharts.git
+oc new-build --name=sonar-scanner --context-dir=resources/sonar-scanner https://github.com/michaelepley/openshift-demo-nauticalcharts.git -e SONARQUBE_SCANNER_TARGET_APPLICATION_NAME=nauticalchart
 
+
+oc create -f resources/openshift-sonarqube-embedded-template.yaml
 
 # TODO: create a config map that build the sonar necessary file at sonar-scanner/conf/sonar-scanner.properties such as:
 #----- Default SonarQube server

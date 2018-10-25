@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 # Configuration
@@ -25,8 +25,8 @@ for OPENSHIFT_PROJECT_TO_CLEAN in ${OPENSHIFT_PROJECTS_TO_CLEAN[*]} ; do
 	echo -n "		--> delete all openshift resources for application ${NAUTICALCHART_WRAPPED_APPLICATION_NAME}..."
 	oc delete all -l app=${NAUTICALCHART_WRAPPED_APPLICATION_NAME} -n ${OPENSHIFT_PROJECT_TO_CLEAN}
 	
-	echo -n "	--> delete miscellaneous artifacts (but leave jenkins alone)..."
-	OPENSHIFT_PROJECT_MISC_RESOURCES=(`oc get all -n ${OPENSHIFT_PROJECT_TO_CLEAN} | grep -v '^NAME' | grep -v jenkins | awk '{ printf $1 " "; }' `)
+	echo -n "	--> delete miscellaneous artifacts (including templates, but leave jenkins alone)..."
+	OPENSHIFT_PROJECT_MISC_RESOURCES=(`oc get all,templates -n ${OPENSHIFT_PROJECT_TO_CLEAN} | grep -v '^NAME' | grep -v jenkins | awk '{ printf $1 " "; }' `)
 	: ${OPENSHIFT_PROJECT_MISC_RESOURCES:-oc delete ${OPENSHIFT_PROJECT_MISC_RESOURCES} -n ${OPENSHIFT_PROJECT_TO_CLEAN} }
 
 	echo "		--> optionally delete the project ... delete the project with 'oc delete project ${OPENSHIFT_PROJECT_TO_CLEAN} '"

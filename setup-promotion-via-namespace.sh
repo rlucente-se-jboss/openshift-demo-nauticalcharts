@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Configuration
 . ./config-demo-openshift-nauticalcharts.sh || { echo "FAILED: Could not configure" && exit 1 ; }
 
 # Additional Configuration
-# None.
+# A label filter to identify application components to migrate
+APPLICATION_LABEL_FILTER=${1:-nauticalchart-original}
 
 echo -n "Verifying configuration ready..."
 : ${APPLICATION_NAME?"missing configuration for APPLICATION_NAME"}
@@ -52,9 +53,9 @@ for APPLICATION_ENVIRONMENT in ${APPLICATION_ENVIRONMENTS[@]:1} ; do
 	APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE=${APPLICATON_RESOURCE_TEMPLATE_TEMP}-${APPLICATION_SOURCE_NAMESPACE}
 	APPLICATON_RESOURCE_TEMPLATE_TEMP_TARGET=${APPLICATON_RESOURCE_TEMPLATE_TEMP}-${APPLICATION_TARGET_NAMESPACE}
 	echo "		--> extract the current application from the ${APPLICATION_SOURCE_NAMESPACE} environment (as a template)"
-	oc export bc,is,dc,route,svc,secrets,configmaps -l app=nauticalchart-original,part=frontend -n ${APPLICATION_SOURCE_NAMESPACE} --as-template=nauticalchart-template -o json > ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE}
+	oc export bc,is,dc,route,svc,secrets,configmaps -l app=${APPLICATION_LABEL_FILTER},part=frontend -n ${APPLICATION_SOURCE_NAMESPACE} --as-template=application-${APPLICATION_LABEL_FILTER}-template -o json > ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE}
 	echo "		--> create a source template in the original namespace, if one does not already exist"
-	oc get template/nauticalchart-template -n ${APPLICATION_SOURCE_NAMESPACE} >/dev/null 2>&1 || oc create -n ${APPLICATION_SOURCE_NAMESPACE} -f ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE} || { echo "WARNING: could not create a template in the source namespace" ; }
+	oc get template/application-${APPLICATION_LABEL_FILTER}-template -n ${APPLICATION_SOURCE_NAMESPACE} >/dev/null 2>&1 || oc create -n ${APPLICATION_SOURCE_NAMESPACE} -f ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE} || { echo "WARNING: could not create a template in the source namespace" ; }
 	cp ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE} ${APPLICATON_RESOURCE_TEMPLATE_TEMP_TARGET}
 	echo "		--> the template intermediate processing is ${APPLICATON_RESOURCE_TEMPLATE_TEMP_SOURCE} -->  ${APPLICATON_RESOURCE_TEMPLATE_TEMP_TARGET}"
 
@@ -71,7 +72,7 @@ for APPLICATION_ENVIRONMENT in ${APPLICATION_ENVIRONMENTS[@]:1} ; do
 	echo "		--> Recreate the application in the target namespace"
 	oc get project ${APPLICATION_TARGET_NAMESPACE} || oc new-project ${APPLICATION_TARGET_NAMESPACE} --skip-config-write=true || { echo "FAILED: could not find or create target namespace ${APPLICATION_TARGET_NAMESPACE} for application promotion" && exit 1 ; }
 	oc create -f ${APPLICATON_RESOURCE_TEMPLATE_TEMP_TARGET} -n ${APPLICATION_TARGET_NAMESPACE}
-	oc new-app -n ${APPLICATION_TARGET_NAMESPACE} --template=nauticalchart-template
+	oc new-app -n ${APPLICATION_TARGET_NAMESPACE} --template=application-${APPLICATION_LABEL_FILTER}-template
 
 	# for the next iteration of this loop, the source namespace is the previous target namespace
 	APPLICATION_SOURCE_NAMESPACE=${APPLICATION_TARGET_NAMESPACE}

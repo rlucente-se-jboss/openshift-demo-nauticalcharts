@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Note: requires bash 4.2 or later
 
@@ -64,9 +64,9 @@ APPLICATION_REPOSITORY_GITHUB=${NAUTICALCHART_ORIGINAL_APPLICATION_REPOSITORY_GI
 APPLICATION_REPOSITORY_GITHUB_BRANCH=${NAUTICALCHART_ORIGINAL_APPLICATION_REPOSITORY_GITHUB_BRANCH}
 
 # if true, this flag means the application promotion process will be configured to take place solely within a single namespace, by creating parallel applications representing each phase
-PROMOTION_PROCESS_APPLICATIONNAME=true
+PROMOTION_PROCESS_APPLICATIONNAME=false
 # if true, this flag means the application promotion process will be configured to take place by creating separate namespaces for each phase
-PROMOTION_PROCESS_NAMESPACE=false
+PROMOTION_PROCESS_NAMESPACE=true
 
 # if true, this flag means the application promotion process will be configured to take place solely within a single namespace, by creating parallel applications representing each phase
 AUDITLOGGING_PROCESS_APPLICATIONNAME=false
