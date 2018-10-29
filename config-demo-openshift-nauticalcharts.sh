@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Note: requires bash 4.2 or later
 
-[[ -v CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_COMPLETED ]] && echo "Using openshift simple demo configuration" && { return || exit ; }
+CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_COMPLETED_MARKER=$(dirname $0)/.config_complete
+
+[[ -e "$CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_COMPLETED_MARKER" ]] && echo "Using openshift simple demo configuration" && { return || exit ; }
 
 # assume the demo is interactive
 : ${DEMO_INTERACTIVE:=true}
@@ -125,4 +127,4 @@ if [ "$CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_DISPLAY" != "false" ]; then
 	echo "____________________________________________________________"
 fi
 
-CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_COMPLETED=true
+touch ${CONFIGURATION_DEMO_OPENSHIFT_NAUTICALCHARTS_COMPLETED_MARKER}
