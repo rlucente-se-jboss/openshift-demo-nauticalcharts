@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # example of running standalone
 # sonar-scanner -Dsonar.projectKey=nauticalchart -Dsonar.sources=. -Dsonar.projectBaseDir=/opt/src -Dsonar.host.url=http://sonarqube-mepley-cd-cicd.apps.rhtps.io -Dsonar.login=c1619d0efb999dcac4c2a603f176ba06f17afc1e
